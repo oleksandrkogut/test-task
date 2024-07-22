@@ -1,0 +1,61 @@
+parameters:
+    # BCMATH
+    app.bcmath.scale: '%env(int:APP_BCMATH_SCALE)%'
+
+    # Commissions
+    app.commission.eu: '%env(string:APP_COMMISSION_EU)%'
+    app.commission.normal: '%env(string:APP_COMMISSION_NORMAL)%'
+
+    # Binlist integration
+    app.binlist.host: '%env(string:APP_BINLIST_HOST)%'
+
+    # Exchange rates integration
+    app.exchange_rates.host: '%env(string:APP_EXCHANGE_RATES_HOST)%'
+    app.exchange_rates.key: '%env(string:APP_EXCHANGE_RATES_KEY)%'
+
+    # EU country checker
+    app.countries.eu:
+        - 'AT'
+        - 'BE'
+        - 'BG'
+        - 'CY'
+        - 'CZ'
+        - 'DE'
+        - 'DK'
+        - 'EE'
+        - 'ES'
+        - 'FI'
+        - 'FR'
+        - 'GR'
+        - 'HR'
+        - 'HU'
+        - 'IE'
+        - 'IT'
+        - 'LT'
+        - 'LU'
+        - 'LV'
+        - 'MT'
+        - 'NL'
+        - 'PT'
+        - 'RO'
+        - 'SE'
+        - 'SI'
+        - 'SK'
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+
+    App\Contracts\EuropeanUnionCountryInterface:
+        class: App\Service\EuropeanUnionCountryChecker
+
+    App\Contracts\TransactionReaderInterface:
+        class: App\Service\TransactionsFileReader
